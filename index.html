@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Clima</title>
+</head>
+<body>
+    <div class="style">
+    <h1>Confira o clima da sua cidade</h1>
+    <hr>
+    <div id="info"></div>
+    <input type="text" id="cidade" placeholder="Digite a cidade">
+    <button id="buscarButton">Buscar</button>
+    </div>
+
+    <script>
+        function fetchClima() {
+            const cidade = document.getElementById('cidade').value;
+            const apiKey = '64ed82577ced7f69cb1687f0ce536131';
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${cidade}&units=metric&appid=${apiKey}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const info = document.getElementById('info');
+                    info.innerHTML = `
+                        <p class="temperatura">${data.main.temp}°C</p>
+                        <p>${data.main.humidity}% de Umidade</p>
+                        <p><strong>${data.weather[0].description}</strong></p>
+                    `;
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar informações do clima:', error);
+                });
+        }
+        document.getElementById('buscarButton').addEventListener('click', fetchClima);
+        
+        function Google(){
+            const cidade2 = document.getElementById('cidade').value;
+            window.open(`https://earth.google.com/web/search/${cidade2}`);
+        }
+        document.getElementById('buscarButton').addEventListener('click', Google)
+    </script>
+</body>
+</html>
